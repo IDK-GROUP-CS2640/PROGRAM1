@@ -1,0 +1,134 @@
+#NAME : DENISE THUONG, HUNG NGUYEN CS2640.02
+#DATE: 03/26/23
+#OBJECTIVES:
+# - take user input & output the user input
+# - add, subtract, multiply, divide values
+# - output the value of the add, subtract, multiply, divide
+# - compare values to see if they are the same or not
+
+.data
+getNum1: .asciiz "\nPlease enter a number: "
+getNum2: .asciiz "Please enter another number: "
+input1: .asciiz "\nUser first input was: "
+input2: .asciiz "\nUser second input was: "
+
+
+addition: .asciiz "\nThe addition result is: "
+subtraction: .asciiz "\nThe Subtraction result is: "
+multiplication: .asciiz "\nThe multiplication result is: "
+division: .asciiz "\nThe division result is: "
+
+sameMsg: .asciiz "\nUser inputs are the same."
+diffMsg: .asciiz "\nUser inputs are different."
+
+
+.text
+main:
+	#print getNum1
+	li $v0, 4
+	la $a0, getNum1
+	syscall
+	
+	#reading an integer and saving the value
+	li $v0, 5
+	syscall
+	move $s0, $v0 #user value 1
+	
+	#print getNum2
+	li $v0, 4
+	la $a0, getNum2
+	syscall
+	
+	#reading an integer and saving the value
+	li $v0, 5
+	syscall
+	move $s1, $v0 #user value 2
+	
+	#print input1
+	li $v0, 4
+	la $a0, input1
+	syscall
+	
+	#print the user first input	
+	li $v0, 1
+	move $a0, $s0
+	syscall
+	
+	#print input2
+	li $v0, 4
+	la $a0, input2
+	syscall
+	
+	#print user second input
+	li $v0, 1
+	move $a0, $s1
+	syscall
+	
+	#adding the two input
+	add $s2, $s0, $s1	#Result is in $s2
+	
+	#print addition
+	li $v0, 4
+	la $a0, addition
+	syscall
+	
+	#print result of the addition
+	li $v0, 1		
+	move $a0, $s2
+	syscall
+	
+	#subtracting the two input
+	sub $s2, $s0, $s1	#Result is in $s2
+	
+	#print Subtraction
+	li $v0, 4		
+	la $a0, subtraction 
+	syscall
+	
+	#Print result of the subtraction
+	li $v0, 1		
+	move $a0, $s2
+	syscall
+
+	#multiplying the two input
+	mul $s2, $s0,$s1	#Result is in $s2
+	
+	#load the string of multiplication
+	li $v0, 4		
+	la $a0, multiplication
+	syscall
+	
+	#Print the result of the multiplication
+	li $v0, 1		
+	move $a0, $s2
+	syscall
+	
+	#dividing the two input
+	div $s2,$s0,$s1		#Result is in $s2
+	
+	#print division
+	li $v0, 4		
+	la $a0, division
+	syscall
+	
+	#print the result of the division
+	li $v0, 1		
+	move $a0, $s2
+	syscall
+	
+	# compare the two integers
+	beq $s0, $s1, same   	#if $s0 == $s1, go to label same
+	li $v0, 4  		# print string
+	la $a0, diffMsg  	#load address of diffMsg string into $a0
+	syscall  		#print diffMsg string
+	j exit 			#jump to exit
+	
+same: 
+	li $v0, 4  		#print string
+	la $a0, sameMsg 	# load address of sameMsg string
+	syscall 
+
+	
+exit:	
+	li $v0, 10
+	syscall 
